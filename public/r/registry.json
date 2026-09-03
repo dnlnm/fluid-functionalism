@@ -990,6 +990,34 @@
       ]
     },
     {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Standalone text field with label, icon slot, error state, and controlled or uncontrolled value. Built on Base UI Field.",
+      "dependencies": [
+        "lucide-react",
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils",
+        "https://www.fluidfunctionalism.com/r/font-weight.json",
+        "https://www.fluidfunctionalism.com/r/shape-context.json",
+        "https://www.fluidfunctionalism.com/r/icon-context.json",
+        "https://www.fluidfunctionalism.com/r/size-context.json",
+        "https://www.fluidfunctionalism.com/r/tokens.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/input.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Docs & live playground: https://www.fluidfunctionalism.com/docs/input.",
+      "categories": [
+        "components"
+      ]
+    },
+    {
       "name": "input-copy",
       "type": "registry:ui",
       "title": "Input Copy",
