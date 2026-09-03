@@ -443,14 +443,16 @@
       "name": "badge",
       "type": "registry:ui",
       "title": "Badge",
-      "description": "Compact label with solid and dot variants, Tailwind color palette, and three sizes.",
+      "description": "Compact label with solid, dot, and elevated variants, Tailwind color palette, and three sizes.",
       "dependencies": [
         "class-variance-authority"
       ],
       "registryDependencies": [
         "utils",
         "shape-context",
-        "size-context"
+        "size-context",
+        "surface-context",
+        "surface-classes"
       ],
       "files": [
         {

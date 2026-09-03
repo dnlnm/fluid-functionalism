@@ -21,6 +21,14 @@ const dotCode = `import { Badge } from "./components";
 <Badge variant="dot" color="blue">History</Badge>
 <Badge variant="dot" color="rose">Poetry</Badge>`;
 
+const elevatedCode = `import { Badge } from "./components";
+
+<Badge variant="elevated" color="violet">Fiction</Badge>
+<Badge variant="elevated" color="amber">Science</Badge>
+<Badge variant="elevated" color="green">Philosophy</Badge>
+<Badge variant="elevated" color="blue">History</Badge>
+<Badge variant="elevated" color="rose">Poetry</Badge>`;
+
 const allColors = Object.keys(badgeColors) as BadgeColor[];
 
 const colorsCode = `import { Badge } from "./components";
@@ -35,9 +43,10 @@ const colorsCode = `import { Badge } from "./components";
 const badgeProps: PropDef[] = [
   {
     name: "variant",
-    type: '"solid" | "dot"',
+    type: '"solid" | "dot" | "elevated"',
     default: '"solid"',
-    description: "Visual style. Solid uses a tinted background; dot shows a colored indicator.",
+    description:
+      "Visual style. Solid uses a tinted background; dot shows a colored indicator on a transparent ground; elevated shows a colored indicator on a surface two steps above the substrate, with shadow.",
   },
   {
     name: "size",
@@ -60,7 +69,7 @@ export default function BadgeDoc() {
     <DocPage
       title="Badge"
       slug="badge"
-      description="Compact label for status, category, or metadata. Supports solid and dot variants with Tailwind colors."
+      description="Compact label for status, category, or metadata. Supports solid, dot, and elevated variants with Tailwind colors."
     >
       <DocSection title="Solid">
         <ComponentPreview code={solidCode}>
@@ -70,6 +79,18 @@ export default function BadgeDoc() {
             <Badge color="green">Philosophy</Badge>
             <Badge color="blue">History</Badge>
             <Badge color="rose">Poetry</Badge>
+          </div>
+        </ComponentPreview>
+      </DocSection>
+
+      <DocSection title="Elevated">
+        <ComponentPreview code={elevatedCode}>
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="elevated" color="violet">Fiction</Badge>
+            <Badge variant="elevated" color="amber">Science</Badge>
+            <Badge variant="elevated" color="green">Philosophy</Badge>
+            <Badge variant="elevated" color="blue">History</Badge>
+            <Badge variant="elevated" color="rose">Poetry</Badge>
           </div>
         </ComponentPreview>
       </DocSection>

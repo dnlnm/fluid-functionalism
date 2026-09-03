@@ -5,6 +5,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { useShape } from "@/lib/shape-context";
 import { useSizeVariant } from "@/lib/size-context";
+import { useSurface } from "@/lib/surface-context";
+import { surfaceClasses } from "@/lib/surface-classes";
 
 const badgeColors = {
   gray: "#a3a3a3",
@@ -35,6 +37,7 @@ const badgeVariants = cva(
       variant: {
         solid: "",
         dot: "border border-border text-foreground",
+        elevated: "text-foreground",
       },
       // The two-step size ladder shared by every control — see /docs/sizes.
       size: {
@@ -95,7 +98,17 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
         : "default";
     const colorValue = badgeColors[color];
     const isSolid = variant === "solid";
+    const isElevated = variant === "elevated";
     const dotSize = size === "compact" ? 6 : 7;
+
+    // Elevated badges sit two steps (+2, the popover offset) above the current
+    // so they lift off cards and images in both light and dark mode. The
+    // lookup tables keep the literal Tailwind classes visible to the v4
+    // scanner. Badge is a leaf span, so no SurfaceProvider re-provide.
+    const substrate = useSurface();
+    const elevatedClasses = isElevated
+      ? surfaceClasses(Math.min(substrate + 2, 8))
+      : "";
 
     const colorStyle = isSolid
       ? color === "gray"
@@ -111,11 +124,16 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     return (
       <span
         ref={ref}
-        className={cn(badgeVariants({ variant, size }), shape.item, className)}
+        className={cn(
+          badgeVariants({ variant, size }),
+          shape.item,
+          elevatedClasses,
+          className
+        )}
         style={{ ...colorStyle, ...style }}
         {...props}
       >
-        {!isSolid && (
+        {(isElevated || !isSolid) && (
           <span
             className="shrink-0 rounded-full"
             style={{
