@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { useShape } from "@/lib/shape-context";
 import { useSizeVariant } from "@/lib/size-context";
 import { useSurface } from "@/lib/surface-context";
-import { surfaceClasses } from "@/lib/surface-classes";
+import { SURFACE_SHADOW, surfaceClasses } from "@/lib/surface-classes";
 
 const badgeColors = {
   gray: "#a3a3a3",
@@ -37,7 +37,6 @@ const badgeVariants = cva(
       variant: {
         solid: "",
         dot: "border border-border text-foreground",
-        elevated: "text-foreground",
       },
       // The two-step size ladder shared by every control — see /docs/sizes.
       size: {
@@ -69,6 +68,10 @@ interface BadgeProps
   extends Omit<HTMLAttributes<HTMLSpanElement>, "color">,
     Omit<VariantProps<typeof badgeVariants>, "size"> {
   color?: BadgeColor;
+  /** Lift two surface steps above the substrate, with shadow. Combines with
+   *  both variants: solid keeps its tinted ground and gains the shadow;
+   *  dot swaps its transparent ground for the elevated surface. */
+  elevated?: boolean;
   /** Omitted, the badge follows the surrounding SizeProvider. Legacy
    *  sm/md/lg values still resolve. */
   size?: BadgeSize;
@@ -79,6 +82,7 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     {
       className,
       variant = "solid",
+      elevated = false,
       size: sizeProp,
       color = "gray",
       children,
@@ -98,16 +102,21 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
         : "default";
     const colorValue = badgeColors[color];
     const isSolid = variant === "solid";
-    const isElevated = variant === "elevated";
     const dotSize = size === "compact" ? 6 : 7;
 
     // Elevated badges sit two steps (+2, the popover offset) above the current
-    // so they lift off cards and images in both light and dark mode. The
-    // lookup tables keep the literal Tailwind classes visible to the v4
-    // scanner. Badge is a leaf span, so no SurfaceProvider re-provide.
+    // substrate so they lift off cards and images in both light and dark mode.
+    // Solid keeps its tinted ground (inline style beats the bg class, so only
+    // the shadow is applied); dot takes the full elevated surface and drops
+    // its transparent-ground border. The lookup tables keep the literal
+    // Tailwind classes visible to the v4 scanner. Badge is a leaf span, so no
+    // SurfaceProvider re-provide.
     const substrate = useSurface();
-    const elevatedClasses = isElevated
-      ? surfaceClasses(Math.min(substrate + 2, 8))
+    const level = Math.min(substrate + 2, 8);
+    const elevatedClasses = elevated
+      ? isSolid
+        ? SURFACE_SHADOW[level]
+        : cn("text-foreground", surfaceClasses(level))
       : "";
 
     const colorStyle = isSolid
@@ -125,7 +134,12 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       <span
         ref={ref}
         className={cn(
-          badgeVariants({ variant, size }),
+          // Elevated dot drops the transparent-ground border (the surface +
+          // shadow draws the edge instead), so it builds on the solid base.
+          badgeVariants({
+            variant: elevated && !isSolid ? "solid" : variant,
+            size,
+          }),
           shape.item,
           elevatedClasses,
           className
@@ -133,7 +147,7 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
         style={{ ...colorStyle, ...style }}
         {...props}
       >
-        {(isElevated || !isSolid) && (
+        {!isSolid && (
           <span
             className="shrink-0 rounded-full"
             style={{

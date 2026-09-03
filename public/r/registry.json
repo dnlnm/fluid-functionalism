@@ -443,7 +443,7 @@
       "name": "badge",
       "type": "registry:ui",
       "title": "Badge",
-      "description": "Compact label with solid, dot, and elevated variants, Tailwind color palette, and three sizes.",
+      "description": "Compact label with solid and dot variants, optional elevated lift, Tailwind color palette, and three sizes.",
       "dependencies": [
         "class-variance-authority"
       ],

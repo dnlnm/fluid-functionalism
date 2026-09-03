@@ -23,11 +23,12 @@ const dotCode = `import { Badge } from "./components";
 
 const elevatedCode = `import { Badge } from "./components";
 
-<Badge variant="elevated" color="violet">Fiction</Badge>
-<Badge variant="elevated" color="amber">Science</Badge>
-<Badge variant="elevated" color="green">Philosophy</Badge>
-<Badge variant="elevated" color="blue">History</Badge>
-<Badge variant="elevated" color="rose">Poetry</Badge>`;
+<Badge variant="solid" elevated color="violet">Fiction</Badge>
+<Badge variant="solid" elevated color="amber">Science</Badge>
+<Badge variant="solid" elevated color="green">Philosophy</Badge>
+<Badge variant="dot" elevated color="violet">Fiction</Badge>
+<Badge variant="dot" elevated color="amber">Science</Badge>
+<Badge variant="dot" elevated color="green">Philosophy</Badge>`;
 
 const allColors = Object.keys(badgeColors) as BadgeColor[];
 
@@ -43,10 +44,17 @@ const colorsCode = `import { Badge } from "./components";
 const badgeProps: PropDef[] = [
   {
     name: "variant",
-    type: '"solid" | "dot" | "elevated"',
+    type: '"solid" | "dot"',
     default: '"solid"',
     description:
-      "Visual style. Solid uses a tinted background; dot shows a colored indicator on a transparent ground; elevated shows a colored indicator on a surface two steps above the substrate, with shadow.",
+      "Visual style. Solid uses a tinted background; dot shows a colored indicator on a transparent ground.",
+  },
+  {
+    name: "elevated",
+    type: "boolean",
+    default: "false",
+    description:
+      "Lift two surface steps above the substrate, with shadow. Combines with both variants: solid keeps its tint; dot swaps to the elevated surface.",
   },
   {
     name: "size",
@@ -69,7 +77,7 @@ export default function BadgeDoc() {
     <DocPage
       title="Badge"
       slug="badge"
-      description="Compact label for status, category, or metadata. Supports solid, dot, and elevated variants with Tailwind colors."
+      description="Compact label for status, category, or metadata. Supports solid and dot variants with Tailwind colors, each optionally elevated."
     >
       <DocSection title="Solid">
         <ComponentPreview code={solidCode}>
@@ -85,12 +93,17 @@ export default function BadgeDoc() {
 
       <DocSection title="Elevated">
         <ComponentPreview code={elevatedCode}>
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="elevated" color="violet">Fiction</Badge>
-            <Badge variant="elevated" color="amber">Science</Badge>
-            <Badge variant="elevated" color="green">Philosophy</Badge>
-            <Badge variant="elevated" color="blue">History</Badge>
-            <Badge variant="elevated" color="rose">Poetry</Badge>
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="solid" elevated color="violet">Fiction</Badge>
+              <Badge variant="solid" elevated color="amber">Science</Badge>
+              <Badge variant="solid" elevated color="green">Philosophy</Badge>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="dot" elevated color="violet">Fiction</Badge>
+              <Badge variant="dot" elevated color="amber">Science</Badge>
+              <Badge variant="dot" elevated color="green">Philosophy</Badge>
+            </div>
           </div>
         </ComponentPreview>
       </DocSection>
