@@ -285,12 +285,14 @@ export default function CompareBasesPage() {
           <RadixButton variant="secondary">Secondary</RadixButton>
           <RadixButton variant="tertiary">Tertiary</RadixButton>
           <RadixButton variant="ghost">Ghost</RadixButton>
+          <RadixButton variant="elevated">Elevated</RadixButton>
         </div>
         <div className="flex flex-wrap gap-2">
           <BaseButton variant="primary">Primary</BaseButton>
           <BaseButton variant="secondary">Secondary</BaseButton>
           <BaseButton variant="tertiary">Tertiary</BaseButton>
           <BaseButton variant="ghost">Ghost</BaseButton>
+          <BaseButton variant="elevated">Elevated</BaseButton>
         </div>
       </Row>
 

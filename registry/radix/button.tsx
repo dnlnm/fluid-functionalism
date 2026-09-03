@@ -5,6 +5,7 @@ import {
   forwardRef,
   isValidElement,
   type ButtonHTMLAttributes,
+  type CSSProperties,
   type ReactElement,
   type ReactNode,
 } from "react";
@@ -14,6 +15,8 @@ import type { IconComponent } from "@/lib/icon-context";
 import { cn } from "@/lib/utils";
 import { useShape } from "@/lib/shape-context";
 import { useSizeVariant } from "@/lib/size-context";
+import { useSurface } from "@/lib/surface-context";
+import { SURFACE_SHADOW } from "@/lib/surface-classes";
 
 const buttonVariants = cva(
   [
@@ -29,6 +32,7 @@ const buttonVariants = cva(
         secondary: "text-foreground",
         tertiary: "text-foreground",
         ghost: "text-muted-foreground hover:text-foreground",
+        elevated: "text-foreground",
       },
       // The two-step size ladder shared by every control — see /docs/sizes.
       // default = 36px control height, compact = 28px for dense surfaces.
@@ -91,6 +95,11 @@ interface ButtonProps
   active?: boolean;
 }
 
+/* Surface token reference by rung, without spelling the variable reference
+   literally (see surfaceVar note at the elevated entry): the shipped-source
+   CSS-variable scanner would match only a truncated prefix of a template. */
+const surfaceVar = (level: number) => "var(" + `--surface-${level})`;
+
 /* Press effect: the surface layer sits 1px inside the button and a
    same-color box-shadow spread fills it back out to the full bounds.
    Pressing collapses the spread, shrinking the surface by exactly 1px per
@@ -112,6 +121,16 @@ const bgVariants: Record<string, string> = {
   // render only outside the surface box.
   ghost:
     "bg-transparent shadow-[0_0_0_1px_transparent] group-hover:bg-hover group-hover:shadow-[0_0_0_1px_var(--hover)] group-active:bg-active group-active:shadow-[0_0_0_0px_var(--active)]",
+  // Elevated: the face color arrives via --btn-bg from inline custom
+  // properties (the substrate + 2 surface token for rest, precomputed
+  // hover/active mixes toward --foreground — see rootStyle below). Separate
+  // names per state keeps every var() reference acyclic (a property
+  // referencing itself is invalid at computed-value time and would blank
+  // the fill on hover/press), and no level is baked into a Tailwind class.
+  // The drop shadow lives on the button root (SURFACE_SHADOW), leaving the
+  // bg layer's 1px press ring untouched.
+  elevated:
+    "bg-[var(--btn-bg)] shadow-[0_0_0_1px_var(--btn-bg)] group-hover:bg-[var(--btn-bg-hover)] group-hover:shadow-[0_0_0_1px_var(--btn-bg-hover)] group-active:bg-[var(--btn-bg-active)] group-active:shadow-[0_0_0_0px_var(--btn-bg-active)]",
 };
 
 /* Forced-active (`active` prop): pressed colors at full size; the
@@ -125,6 +144,8 @@ const activeBgVariants: Record<string, string> = {
     "bg-active shadow-[0_0_0_1px_var(--border),inset_0_0_0_0px_var(--border)] group-active:shadow-[0_0_0_0px_var(--border),inset_0_0_0_1px_var(--border)]",
   ghost:
     "bg-active shadow-[0_0_0_1px_var(--active)] group-active:shadow-[0_0_0_0px_var(--active)]",
+  elevated:
+    "bg-[var(--btn-bg)] shadow-[0_0_0_1px_var(--btn-bg)] group-active:shadow-[0_0_0_0px_var(--btn-bg)]",
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -175,6 +196,23 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const bgClass = active
       ? activeBgVariants[variant ?? "primary"]
       : bgVariants[variant ?? "primary"];
+    // Elevated buttons render their face one rung above the surrounding
+    // substrate (the popover offset, like Badge) with a matching drop shadow
+    // on the root. The surface color feeds the shared --btn-bg press
+    // machinery through inheritance, so hover/active/press behave like the
+    // other filled variants.
+    const substrate = useSurface();
+    const elevatedLevel = Math.min(substrate + 2, 8);
+    const isElevated = variant === "elevated";
+    const rootStyle =
+      isElevated
+        ? ({
+            "--btn-bg": surfaceVar(elevatedLevel),
+            "--btn-bg-hover": `color-mix(in oklab, ${surfaceVar(elevatedLevel)} 94%, var(--foreground))`,
+            "--btn-bg-active": `color-mix(in oklab, ${surfaceVar(elevatedLevel)} 88%, var(--foreground))`,
+            ...style,
+          } as CSSProperties)
+        : style;
 
     const internals = (
       <>
@@ -259,12 +297,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             iconRight: !isIconOnly && !!TrailingIcon,
           }),
           shape.button,
+          isElevated ? SURFACE_SHADOW[elevatedLevel] : "",
           className
         )}
         // asChild roots (e.g. an anchor) don't take the disabled attribute —
         // Slot would spread it onto the element as invalid HTML.
         disabled={asChildElement ? undefined : disabled || loading}
-        style={style}
+        style={rootStyle}
         {...props}
       >
         {asChildElement

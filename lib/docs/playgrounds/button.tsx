@@ -20,7 +20,7 @@ import type { PlaygroundProps } from "./types";
 // combination of the props can be previewed, with the matching code kept in
 // sync in the doc page's Code tab.
 
-type PlayVariant = "primary" | "secondary" | "tertiary" | "ghost";
+type PlayVariant = "primary" | "secondary" | "tertiary" | "ghost" | "elevated";
 type PlaySize = "compact" | "default";
 
 // "Icon only" swaps the text sizes for their square counterparts.
@@ -117,7 +117,7 @@ export function ButtonPlayground({ children }: PlaygroundProps) {
   const randomize = () => {
     const pick = <T,>(arr: readonly T[]) =>
       arr[Math.floor(Math.random() * arr.length)];
-    setVariant(pick(["primary", "secondary", "tertiary", "ghost"] as const));
+    setVariant(pick(["primary", "secondary", "tertiary", "ghost", "elevated"] as const));
     setSizeOverride(pick(["compact", "default"] as const));
     setIconOnly(Math.random() > 0.85);
     setLeading(Math.random() > 0.5);
@@ -141,6 +141,7 @@ export function ButtonPlayground({ children }: PlaygroundProps) {
               { value: "secondary", label: "Secondary" },
               { value: "tertiary", label: "Tertiary" },
               { value: "ghost", label: "Ghost" },
+              { value: "elevated", label: "Elevated" },
             ]}
           />
         </PlayField>

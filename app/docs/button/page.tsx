@@ -14,7 +14,8 @@ const variantsCode = `import { Button } from "./components";
 <Button variant="primary">Primary</Button>
 <Button variant="secondary">Secondary</Button>
 <Button variant="tertiary">Tertiary</Button>
-<Button variant="ghost">Ghost</Button>`;
+<Button variant="ghost">Ghost</Button>
+<Button variant="elevated">Elevated</Button>`;
 
 const iconsCode = `import { Button } from "./components";
 import { Plus, ArrowRight, Search } from "lucide-react";
@@ -33,7 +34,7 @@ import { Loader } from "lucide-react";
 <Button disabled>Disabled</Button>`;
 
 const buttonProps: PropDef[] = [
-  { name: "variant", type: '"primary" | "secondary" | "tertiary" | "ghost"', default: '"primary"', description: "Visual style of the button." },
+  { name: "variant", type: '"primary" | "secondary" | "tertiary" | "ghost" | "elevated"', default: '"primary"', description: "Visual style of the button. Elevated renders its face one surface rung above the substrate with a drop shadow." },
   { name: "size", type: '"default" | "compact" | "icon" | "icon-compact"', default: "from SizeProvider", description: "Step on the size ladder (36px default, 28px compact — see /docs/sizes). Legacy sm/md/lg values resolve as aliases." },
   { name: "loading", type: "boolean", default: "false", description: "Shows a spinner and disables the button." },
   { name: "active", type: "boolean", default: "false", description: "Forces the pressed/held visual — e.g. while a dropdown or popover the button opened is showing." },
@@ -90,6 +91,7 @@ export default function ButtonDoc() {
             <Button variant="secondary">Secondary</Button>
             <Button variant="tertiary">Tertiary</Button>
             <Button variant="ghost">Ghost</Button>
+            <Button variant="elevated">Elevated</Button>
           </div>
         </ComponentPreview>
       </DocSection>

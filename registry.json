@@ -469,7 +469,7 @@
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "Animated button with variants (primary, secondary, tertiary, ghost), icon support, loading spinner, and fluid font-weight transitions on hover.",
+      "description": "Animated button with variants (primary, secondary, tertiary, ghost, elevated), icon support, loading spinner, and fluid font-weight transitions on hover.",
       "dependencies": [
         "framer-motion",
         "@radix-ui/react-slot",
@@ -480,6 +480,8 @@
         "utils",
         "font-weight",
         "shape-context",
+        "surface-context",
+        "surface-classes",
         "icon-context",
         "size-context",
         "tokens"
@@ -515,7 +517,7 @@
       "name": "button-base",
       "type": "registry:ui",
       "title": "Button (Base UI)",
-      "description": "Animated button with variants (primary, secondary, tertiary, ghost), icon support, loading spinner, and fluid font-weight transitions on hover. Base UI flavor.",
+      "description": "Animated button with variants (primary, secondary, tertiary, ghost, elevated), icon support, loading spinner, and fluid font-weight transitions on hover. Base UI flavor.",
       "dependencies": [
         "framer-motion",
         "@base-ui/react",
@@ -526,6 +528,8 @@
         "utils",
         "font-weight",
         "shape-context",
+        "surface-context",
+        "surface-classes",
         "icon-context",
         "size-context",
         "tokens"
