@@ -636,6 +636,58 @@
       ]
     },
     {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Standalone checkbox with animated check mark, indeterminate state, optional description, and box-only mode. Built on Radix UI Checkbox.",
+      "dependencies": [
+        "framer-motion",
+        "@radix-ui/react-checkbox"
+      ],
+      "registryDependencies": [
+        "utils",
+        "size-context",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "registry/radix/checkbox.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/checkbox.tsx"
+        }
+      ],
+      "docs": "Docs & live playground: https://www.fluidfunctionalism.com/docs/checkbox.",
+      "categories": [
+        "components"
+      ]
+    },
+    {
+      "name": "checkbox-base",
+      "type": "registry:ui",
+      "title": "Checkbox (Base UI)",
+      "description": "Standalone checkbox with animated check mark, indeterminate state, optional description, and box-only mode. Base UI flavor.",
+      "dependencies": [
+        "framer-motion",
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils",
+        "size-context",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "registry/base/checkbox.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/checkbox.tsx"
+        }
+      ],
+      "docs": "Docs & live playground: https://www.fluidfunctionalism.com/docs/checkbox.",
+      "categories": [
+        "components"
+      ]
+    },
+    {
       "name": "checkbox-group",
       "type": "registry:ui",
       "title": "Checkbox Group",
@@ -647,7 +699,6 @@
       "registryDependencies": [
         "utils",
         "springs",
-        "font-weight",
         "shape-context",
         "use-proximity-hover",
         "use-merge-split",
@@ -678,7 +729,6 @@
       "registryDependencies": [
         "utils",
         "springs",
-        "font-weight",
         "shape-context",
         "use-proximity-hover",
         "use-merge-split",

@@ -14,7 +14,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { cn } from "@/lib/utils";
 import { spring } from "@/lib/springs";
-import { fontWeights } from "@/lib/font-weight";
 import { useProximityHover } from "@/hooks/use-proximity-hover";
 import { useMergeSplitBlocks, SelectionBackgrounds } from "@/hooks/use-merge-split";
 import { useShape } from "@/lib/shape-context";
@@ -316,13 +315,15 @@ const CheckboxItem = forwardRef<HTMLDivElement, CheckboxItemProps>(
           )}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Border */}
+          {/* Fill + border — hardcoded 4/5px radius so the box stays
+              recognizable. Checked fills with bg-foreground (dark in light
+              theme, light in dark theme); the mark flips to text-background. */}
           <div
             className={cn(
               "absolute inset-0 border-solid transition-all duration-80",
               compact ? "rounded-[4px]" : "rounded-[5px]",
               checked
-                ? "border-[1.5px] border-transparent"
+                ? "border-[1.5px] border-transparent bg-foreground"
                 : isActive
                 ? "border-[1.5px] border-neutral-400 dark:border-neutral-500"
                 : "border-[1.5px] border-border"
@@ -341,7 +342,7 @@ const CheckboxItem = forwardRef<HTMLDivElement, CheckboxItemProps>(
                   strokeWidth={2}
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-foreground"
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-background"
                   initial={{ opacity: 1 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 1 }}
@@ -372,32 +373,16 @@ const CheckboxItem = forwardRef<HTMLDivElement, CheckboxItemProps>(
           </AnimatePresence>
         </CheckboxPrimitive.Root>
 
-        {/* Label */}
-        {/* Both stacked spans carry the text-box trim so the invisible bold
-            sizer and the visible label keep identical boxes. */}
-        <span className={cn("inline-grid", sizeClasses.text)}>
-          <span
-            className="col-start-1 row-start-1 invisible [text-box:trim-both_cap_alphabetic]"
-            style={{ fontVariationSettings: fontWeights.semibold }}
-            aria-hidden="true"
-          >
-            {label}
-          </span>
-          <span
-            className={cn(
-              "col-start-1 row-start-1 transition-[color,font-variation-settings] duration-80 [text-box:trim-both_cap_alphabetic]",
-              checked || isActive
-                ? "text-foreground"
-                : "text-muted-foreground"
-            )}
-            style={{
-              fontVariationSettings: checked
-                ? fontWeights.semibold
-                : fontWeights.normal,
-            }}
-          >
-            {label}
-          </span>
+        {/* Label — static weight; checked state is signaled by the filled
+            box + mark and the foreground color. */}
+        <span
+          className={cn(
+            sizeClasses.text,
+            "transition-colors duration-80 [text-box:trim-both_cap_alphabetic]",
+            checked || isActive ? "text-foreground" : "text-muted-foreground"
+          )}
+        >
+          {label}
         </span>
       </div>
     );
