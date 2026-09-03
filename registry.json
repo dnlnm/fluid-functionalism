@@ -636,6 +636,68 @@
       ]
     },
     {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Anchored popup panel with spring open/close animation, collision-aware positioning, and generic content. Built on Radix UI Popover.",
+      "dependencies": [
+        "framer-motion",
+        "@radix-ui/react-popover"
+      ],
+      "registryDependencies": [
+        "utils",
+        "springs",
+        "shape-context",
+        "surface-context",
+        "surface-classes",
+        "elevated",
+        "size-context",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "registry/radix/popover.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/popover.tsx"
+        }
+      ],
+      "docs": "Docs & live playground: https://www.fluidfunctionalism.com/docs/popover.",
+      "categories": [
+        "components"
+      ]
+    },
+    {
+      "name": "popover-base",
+      "type": "registry:ui",
+      "title": "Popover (Base UI)",
+      "description": "Anchored popup panel with spring open/close animation, collision-aware positioning, and generic content. Base UI flavor.",
+      "dependencies": [
+        "framer-motion",
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils",
+        "springs",
+        "shape-context",
+        "surface-context",
+        "surface-classes",
+        "elevated",
+        "size-context",
+        "tokens"
+      ],
+      "files": [
+        {
+          "path": "registry/base/popover.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/popover.tsx"
+        }
+      ],
+      "docs": "Docs & live playground: https://www.fluidfunctionalism.com/docs/popover.",
+      "categories": [
+        "components"
+      ]
+    },
+    {
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",
