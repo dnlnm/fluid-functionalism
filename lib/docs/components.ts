@@ -36,6 +36,7 @@ export const componentList: ComponentEntry[] = [
   { slug: "color-picker", name: "ColorPicker", description: "Color picker with HEX/RGB/HSL/OKLCH formats, alpha, swatches, and popover trigger.", gridSize: "large" },
   { slug: "dialog", name: "Dialog", description: "Modal dialog with smooth enter/exit animations and overlay.", gridSize: "small" },
   { slug: "dropdown", name: "Dropdown", description: "Menu-style dropdown with proximity hover and animated backgrounds.", gridSize: "small" },
+  { slug: "faceted-filter", name: "FacetedFilter", description: "Trigger button with badges, searchable checkbox popover, counts, and clear.", gridSize: "medium" },
   { slug: "input", name: "Input", description: "Standalone text field with label, icon slot, and error state.", gridSize: "small" },
   { slug: "input-copy", name: "InputCopy", description: "Read-only input with copy-to-clipboard button and animated feedback.", gridSize: "small" },
   { slug: "input-group", name: "InputGroup", description: "Input field group with proximity hover and validation.", gridSize: "small" },
