@@ -21,6 +21,11 @@ interface ShapeClasses {
   container: string;
   button: string;
   input: string;
+  // Recessed well nested inside a container with the panel's 8px gutter.
+  // Concentric corners require r_inner = r_outer − gutter, so this tracks
+  // `container` minus 8px per mode — if the panel gutter ever changes, this
+  // key moves with it.
+  inset: string;
   // Numeric counterparts of `bg` / `mergedBg`, in px. Needed where individual
   // corners are animated (e.g. the selected-background merge/split animation),
   // which requires per-corner numeric border-radii rather than a class.
@@ -40,6 +45,7 @@ const shapeMap: Record<ShapeVariant, ShapeClasses> = {
     container: "rounded-3xl",
     button: "rounded-[20px]",
     input: "rounded-[20px]",
+    inset: "rounded-2xl",
     bgRadius: 20,
     mergedRadius: 16,
   },
@@ -51,6 +57,7 @@ const shapeMap: Record<ShapeVariant, ShapeClasses> = {
     container: "rounded-xl",
     button: "rounded-lg",
     input: "rounded-lg",
+    inset: "rounded-lg",
     bgRadius: 8,
     mergedRadius: 8,
   },

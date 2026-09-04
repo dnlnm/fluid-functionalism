@@ -640,6 +640,32 @@
       ]
     },
     {
+      "name": "panel",
+      "type": "registry:ui",
+      "title": "Panel",
+      "description": "Sheet one rung above the page with a recessed inset well, optional header and footer. Compositional parts with shadcn data-slot parity.",
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "font-weight",
+        "shape-context",
+        "size-context",
+        "surface-context",
+        "surface-classes",
+        "elevated"
+      ],
+      "files": [
+        {
+          "path": "registry/default/panel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "Docs & live playground: https://www.fluidfunctionalism.com/docs/panel.",
+      "categories": [
+        "components"
+      ]
+    },
+    {
       "name": "popover",
       "type": "registry:ui",
       "title": "Popover",
